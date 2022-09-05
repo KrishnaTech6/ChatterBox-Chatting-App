@@ -7,6 +7,9 @@ import android.service.controls.ControlsProviderService.TAG
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatterbox.models.User
@@ -58,7 +61,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
+        menuInflater.inflate(R.menu.menu_user, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -71,6 +74,31 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
 
             return true
+        }
+        if (item.itemId == R.id.change_name){
+
+            val dialog = AlertDialog.Builder(this@MainActivity)
+            val inflate = layoutInflater.inflate(R.layout.update_name_user, null)
+            val editText: EditText = inflate.findViewById(R.id.et_update_name)
+            with(dialog){
+                setTitle("Update your Name")
+                setPositiveButton("Update"){dialog, which ->
+                    mDbRef.child("User").child(mAuth.currentUser!!.uid)
+                        .child("name").setValue(editText.text.toString())
+                        .addOnSuccessListener {
+                            Toast.makeText(this@MainActivity, "Name : ${editText.text}", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(this@MainActivity, "some error occurred", Toast.LENGTH_SHORT).show()
+                        }
+                }
+                setNegativeButton("Cancel"){ dialog, which ->
+                    Log.d("ChatActivity", "Negative button clicked" )
+                }
+                setView(inflate)
+                show()
+
+            }
         }
         return true
     }
