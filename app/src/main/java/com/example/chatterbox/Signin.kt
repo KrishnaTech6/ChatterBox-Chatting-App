@@ -26,22 +26,35 @@ class Signin : AppCompatActivity() {
         supportActionBar?.hide()
         mAuth = FirebaseAuth.getInstance()
 
-        email = findViewById(R.id.et_email)
-        password = findViewById(R.id.et_password)
-        signup = findViewById(R.id.btn_signup)
-        signin = findViewById(R.id.btn_signin)
-
-        signup.setOnClickListener {
-            val intent = Intent(this@Signin, Signup::class.java)
+        if (mAuth.currentUser?.uid != null){
+            //if logged in, directly go to main activity
+            //else sign in
+            val intent = Intent(this@Signin, MainActivity::class.java)
+            finish() // if back pressed it should not go to sign in activity , therefore we have to add finish()
             startActivity(intent)
         }
+        else{
 
-        signin.setOnClickListener {
-            val email = email.text.toString()
-            val password = password.text.toString()
+            email = findViewById(R.id.et_email)
+            password = findViewById(R.id.et_password)
+            signup = findViewById(R.id.btn_signup)
+            signin = findViewById(R.id.btn_signin)
 
-             login(email, password)
+            signup.setOnClickListener {
+                val intent = Intent(this@Signin, Signup::class.java)
+                startActivity(intent)
+            }
+
+            signin.setOnClickListener {
+                val email = email.text.toString()
+                val password = password.text.toString()
+
+                login(email, password)
+            }
+
         }
+
+
     }
     private fun login(email: String, password: String){
 

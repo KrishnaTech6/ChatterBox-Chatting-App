@@ -17,12 +17,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
+            <ImageView
+                android:background="@drawable/user_image_background"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_person"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:id="@+id/im_userImage"/>
+
             <TextView
                 android:id="@+id/tv_UserName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
+                android:layout_gravity="center"
                 android:paddingStart="16dp"
                 android:text="Krishna"
                 android:textSize="30sp" />
